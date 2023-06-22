@@ -2,7 +2,16 @@ const { Model, DataTypes } = require('sequelize');
 
 const sequelize = require('../config/connection');
 
-class Category extends Model {}
+class Category extends Model {
+  static async bulkCreateCategories(categoryData) {
+    try {
+      await Category.bulkCreate(categoryData);
+      console.log('Categories created successfully!');
+    } catch (error) {
+      console.error('Error creating categories:', error);
+    }
+  }
+}
 
 Category.init(
   {

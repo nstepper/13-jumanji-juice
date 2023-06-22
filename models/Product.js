@@ -4,7 +4,16 @@ const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
 
 // Initialize Product model (table) by extending off Sequelize's Model class
-class Product extends Model {}
+class Product extends Model {
+  static async bulkCreateProducts(productData) {
+    try {
+      await Product.bulkCreate(productData);
+      console.log('Products created successfully!');
+    } catch (error) {
+      console.error('Error creating products:', error);
+    }
+  }
+}
 
 // set up fields and rules for Product model
 Product.init(
