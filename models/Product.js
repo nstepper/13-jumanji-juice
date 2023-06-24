@@ -1,55 +1,30 @@
-// import important parts of sequelize library
-const { Model, DataTypes } = require('sequelize');
-// import our database connection from config.js
+const { DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
+const Category = require('./Category');
 
-// Initialize Product model (table) by extending off Sequelize's Model class
-class Product extends Model {
-  static async bulkCreateProducts(productData) {
-    try {
-      await Product.bulkCreate(productData);
-      console.log('Products created successfully!');
-    } catch (error) {
-      console.error('Error creating products:', error);
-    }
-  }
-}
-
-// set up fields and rules for Product model
-Product.init(
-  {
-    // define columns
-    id: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-      allowNull: false,
-    },
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    price: {
-      type: DataTypes.DECIMAL(10, 2),
-      allowNull: false,
-    },
-    category_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: 'Category',
-        key: 'id',
-      },
-    },
-    
+const Product = sequelize.define('Product', {
+  // Product model attributes
+  name: {
+    type: DataTypes.STRING,
+    allowNull: false,
   },
-  {
-    sequelize,
-    timestamps: false,
-    freezeTableName: true,
-    underscored: true,
-    modelName: 'product',
-  }
-);
+  price: {
+    type: DataTypes.DECIMAL(10, 2),
+    allowNull: false,
+  },
+});
+
+Product.belongsTo(Category, {
+  foreignKey: {
+    name: 'category_id',
+    allowNull: true,
+  },
+});
+Category.hasMany(Product, {
+  foreignKey: {
+    name: 'category_id',
+    allowNull: true,
+  },
+});
 
 module.exports = Product;

@@ -1,12 +1,10 @@
 const router = require('express').Router();
 const Product = require('../../models/Product');
-const Category = require('../../models/Category');
 const Tag = require('../../models/Tag');
 const ProductTag = require('../../models/ProductTag');
 
 
 // The `/api/tags` endpoint
-
 router.get('/', async (req, res) => {
   try {
     const tags = await Tag.findAll({
@@ -14,6 +12,7 @@ router.get('/', async (req, res) => {
         {
           model: Product,
           through: ProductTag,
+          as: 'products',
         },
       ],
     });
@@ -31,6 +30,7 @@ router.get('/:id', async (req, res) => {
         {
           model: Product,
           through: ProductTag,
+          as: 'products',
         },
       ],
     });

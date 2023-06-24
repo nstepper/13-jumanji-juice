@@ -17,7 +17,7 @@ To install and run the application locally, follow these steps:
 
 1. Clone the repository using the command:
 
-- git clone https://github.com/nstepper/12-tweety.git
+- git clone https://github.com/nstepper/13-jumanji-juice
  
 2. Navigate to the project directory and install the dependencies using the command:
 
