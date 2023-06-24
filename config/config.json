@@ -1,0 +1,12 @@
+{
+    "development": {
+      "username": "nstep",
+      "password": "rain",
+      "database": "ecommerce_db",
+      "host": "localhost",
+      "dialect": "mysql",
+      "port": 3306,
+      "seederStorage": "sequelize"
+    }
+  }
+  
