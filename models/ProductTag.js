@@ -1,7 +1,7 @@
 const { Model, DataTypes } = require('sequelize');
-const Product = require('./Product');
-
 const sequelize = require('../config/connection');
+const Product = require('./Product');
+const Tag = require('./Tag');
 
 class ProductTag extends Model {
   static async bulkCreateProductTags(productTagData) {
@@ -16,17 +16,30 @@ class ProductTag extends Model {
 
 ProductTag.init(
   {
-    // define columns
-    tag_id: {
-      type: DataTypes.INTEGER,
-      primaryKey: false,
-      allowNull: false,
-    },
-    product_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
+   // define columns
+   id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+    allowNull: false,
   },
+  product_id: {
+    type: DataTypes.INTEGER,
+    references: {
+      model: Product,
+      key: 'id',
+    },
+    allowNull: false,
+  },
+  tag_id: {
+    type: DataTypes.INTEGER,
+    references: {
+      model: Tag,
+      key: 'id',
+    },
+    allowNull: false,
+  },
+},
   {
     sequelize,
     timestamps: false,
@@ -35,12 +48,10 @@ ProductTag.init(
     modelName: 'product_tag',
   }
 );
-ProductTag.belongsToMany(Product, {
-  through: 'product_tag',
+
+ProductTag.belongsTo(Tag, {
   foreignKey: 'tag_id',
-  otherKey: 'product_id',
+  allowNull: false,
 });
-
-
-
 module.exports = ProductTag;
+
